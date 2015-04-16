@@ -11,8 +11,10 @@ void* cmemcpy(void* pDestination, const void* pSource, unsigned size)
 
 	char* pD = (char*)pDestination;
 	char* pS = (char*)pSource;
+    --pD;
+    --pS;
 	++size;
-	for (--pD, --pS; --size;)
+    while(--size)
 		*++pD = *++pS;
 
 	return pDestination;
@@ -24,8 +26,10 @@ void* cmemmove(void* pDestination, const void* pSource, unsigned size)
 
 	char* pD = (char*)pDestination;
 	char* pS = (char*)pSource;
+    --pD;
+    --pS;
 	++size;
-	for (--pD, --pS; --size;)
+    while (--size)
 		*++pD = *++pS;
 
 	return pDestination;
