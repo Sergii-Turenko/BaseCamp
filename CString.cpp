@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "CString.h"
-//#include <iostream>
 
 #define TS 30
 #define NULL 0;
