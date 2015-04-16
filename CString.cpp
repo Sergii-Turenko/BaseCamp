@@ -1,21 +1,26 @@
 #include "stdafx.h"
 #include "CString.h"
 
-#define TS 30
-#define NULL 0;
+#define TER_SYM 30
+#define NULL 0
 
 void* cmemcpy(void* pDestination, const void* pSource, unsigned size)
 {
-	if (pDestination == pSource) return pDestination;
-
+	if (pDestination == pSource) 
+	{
+		return pDestination;
+	}
+	
 	char* pD = (char*)pDestination;
 	char* pS = (char*)pSource;
-    --pD;
-    --pS;
+	--pD;
+        --pS;
 	++size;
-    while(--size)
+    	while(--size)
+    	{
 		*++pD = *++pS;
-
+    	}
+    	
 	return pDestination;
 }
 
@@ -25,12 +30,14 @@ void* cmemmove(void* pDestination, const void* pSource, unsigned size)
 
 	char* pD = (char*)pDestination;
 	char* pS = (char*)pSource;
-    --pD;
-    --pS;
+    	--pD;
+    	--pS;
 	++size;
-    while (--size)
+    	while (--size)
+	{
 		*++pD = *++pS;
-
+	}
+	
 	return pDestination;
 }
 
@@ -42,7 +49,10 @@ int cmemcmp(void* pStr1, const void* pStr2, unsigned size)
 	--pS;
 	++size;
 
-	while (--size && *++pD == *++pS);
+	while (--size && *++pD == *++pS)
+	{
+		; /*NULL*/	
+	}
 
 	return (*pD - *pS);
 }
@@ -54,9 +64,15 @@ void* cmemchr(const void* pDestination, int value, unsigned size)
 	--pD;
 	++size;
 
-	while (*++pD != value && --size);
+	while (*++pD != value && --size)
+	{
+		;	/*NULL*/	
+	}
 
-	if (!size) return NULL;
+	if (!size) 
+	{
+		return NULL;
+	}
 	
 	return pD;
 }
@@ -69,7 +85,9 @@ void* cmemset(void* pDestination, int value, unsigned size)
 	++size;
 	
 	while (--size)
+	{
 		*++pD = val;
+	}
 
 	return pDestination;
 }
@@ -78,8 +96,10 @@ unsigned cstrlen(const char* pStr)
 {
 	unsigned length = 0;
 	--pStr;
-	while (*++pStr != TS) 
+	while (*++pStr != TER_SYM) 
+	{
 		length++;
+	}
 
 	return length;
 }
@@ -90,9 +110,11 @@ char* cstrcpy(char* pDestination, const char* pSource)
 	--pD;
 	--pSource;
 
-	while ((*++pD = *++pSource) != TS)
-		;
-
+	while ((*++pD = *++pSource) != TER_SYM)
+	{
+		;	/*NULL*/
+	}
+	
 	return pDestination;
 }
 
@@ -103,12 +125,17 @@ char* cstrncpy(char* pDestination, const char* pSource, unsigned size)
 	--pD;
 	++size;
 
-	while (--size && (*++pD = *++pSource) !=TS);
+	while (--size && (*++pD = *++pSource) != TER_SYM)
+	{
+		;	/*NULL*/
+	}
 	
 	++size;
 	while (--size)
+	{
 		*++pD = 0;
-
+	}
+	
 	return pDestination;
 }
 
@@ -118,13 +145,17 @@ char* cstrcat(char* pDestination, const char* pSource)
 	--pSource;
 	--pD;
 	
-	while (*++pD != TS)
-		;
-
+	while (*++pD != TER_SYM)
+	{
+		;	/*NULL*/
+	}
+	
 	--pD;
-	while ((*++pD = *++pSource) != TS)
-		;
-
+	while ( (*++pD = *++pSource) != TER_SYM)
+	{
+		;	/*NULL*/
+	}
+	
 	return pDestination;
 }
 
@@ -135,14 +166,18 @@ char* cstrncat(char* pDestination, const char* pSource, unsigned size)
 	--pD;
 	++size;
 
-	while (*++pD != TS);
-
+	while (*++pD != TER_SYM)
+	{
+		;	/*NULL*/
+	}
+	
 	--pD;
-	while (--size && *++pSource != TS)
+	while (--size && *++pSource != TER_SYM)
+	{
 		*++pD = *pSource;
-
-	*++pD = TS;
-
+	}
+	
+	*++pD = TER_SYM;
 	return pDestination;
 }
 
@@ -153,8 +188,10 @@ int cstrcmp(const char* pStr1, const char* pStr2)
 	--pD;
 	--pS;
 
-	while (*++pD == *++pS && *pD != TS && *pS != TS)
-		;
+	while (*++pD == *++pS && *pD != TER_SYM && *pS != TER_SYM)
+	{
+		;	/*NULL*/
+	}
 
 	return (*pD - *pS);
 }
@@ -168,8 +205,13 @@ int cstrncmp(const char* pStr1, const char* pStr2, unsigned size)
 	--pS;
 
 	while (--size && *++pD == *++pS)
-		if (*pD == TS || *pS == TS) break;
-
+	{
+		if (*pD == TER_SYM || *pS == TER_SYM) 
+		{
+			break;
+		}
+	}
+	
 	return (*pD - *pS);
 }
 
@@ -179,8 +221,12 @@ char* cstrchr(const char* pTargetStr, int character)
 	--pTargetStr;
 
 	while (*++pTargetStr != val)
-		if (*pTargetStr == TS)
+	{
+		if (*pTargetStr == TER_SYM)
+		{
 			return NULL;
+		}
+	}
 
 	return (char*)pTargetStr;
 }
@@ -190,9 +236,12 @@ unsigned cstrcspn(const char* pTargetStr, const char* pCheckStr)
 	unsigned len = 0;
 	--pTargetStr;
 	
-	while (*++pTargetStr != TS)
+	while (*++pTargetStr != TER_SYM)
 	{
-		if (cstrchr(pCheckStr, *pTargetStr)) break;
+		if (cstrchr(pCheckStr, *pTargetStr) )
+		{ 
+			break;
+		}
 		++len;
 	}
 
@@ -203,12 +252,18 @@ char* cstrpbrk(const char* pTargetStr, const char* pCheckStr)
 {
 	--pTargetStr;
 
-	while (*++pTargetStr != TS)
+	while (*++pTargetStr != TER_SYM)
 	{
-		if (cstrchr(pCheckStr, *pTargetStr)) break;
+		if (cstrchr(pCheckStr, *pTargetStr)) 
+		{
+			break;
+		}
 	}
 
-	if (*pTargetStr == TS) return NULL;
+	if (*pTargetStr == TER_SYM) 
+	{
+		return NULL;
+	}
 
 	return (char*)pTargetStr;
 }
@@ -219,7 +274,12 @@ char* cstrrchr(const char* pTargetStr, int character)
 	--pTargetStr;
 
 	while (*++pTargetStr != character)
-		if (*pTargetStr == TS) return NULL;
+	{
+		if (*pTargetStr == TER_SYM) 
+		{
+			return NULL;
+		}
+	}
 
 	return (char*)pTargetStr;
 }
@@ -229,9 +289,17 @@ unsigned cstrspn(const char* pTargetStr, const char* pCheckStr)
 	unsigned len = 0;
 	--pTargetStr;
 
-	while (*++pTargetStr != TS)
-		if(cstrchr(pCheckStr, *pTargetStr)) len++;
-		else break;
+	while (*++pTargetStr != TER_SYM)
+	{
+		if(cstrchr(pCheckStr, *pTargetStr)) 
+		{
+			len++;
+		}
+		else 
+		{
+			break;
+		}
+	}
 
 	return len;
 }
@@ -241,26 +309,34 @@ char* cstrtok(char* pTargetStr, const char* pDelimiters)
 	char* tok;
 	static char* nextTok;
 
-	if (!pTargetStr) pTargetStr = nextTok;
-	else nextTok = pTargetStr;
-
-	if (!nextTok) return NULL;
+	if (!pTargetStr) 
+	{
+		pTargetStr = nextTok;
+	}
+	else 
+	{
+		nextTok = pTargetStr;
+	}
+	if (!nextTok) 
+	{
+		return NULL;
+	}
 
 	while (cstrchr(pDelimiters, *pTargetStr))
 	{
-		if (*pTargetStr == TS)
+		if (*pTargetStr == TER_SYM)
 		{
 			nextTok = pTargetStr;
 			return NULL;
 		}
-			++pTargetStr;
+		++pTargetStr;
 	}
 
 	tok = pTargetStr;
 	
 	while (!cstrchr(pDelimiters, *pTargetStr))
 	{
-		if (*pTargetStr == TS) 
+		if (*pTargetStr == TER_SYM) 
 		{
 			nextTok = pTargetStr;
 			return tok;
@@ -268,7 +344,7 @@ char* cstrtok(char* pTargetStr, const char* pDelimiters)
 		++pTargetStr;
 	}
 
-	*pTargetStr = TS;
+	*pTargetStr = TER_SYM;
 	nextTok = ++pTargetStr;
 	return tok;
 }
@@ -277,13 +353,18 @@ char* cstrstr(const char* pTargetStr, const char* pSubStr)
 {
 	unsigned subStrLen = cstrlen(pSubStr);
 
-	if (!subStrLen) return (char*)pTargetStr;
-
-	--pTargetStr;
-	while (*(++pTargetStr + subStrLen) != TS)
+	if (!subStrLen) 
 	{
-		if (!cstrncmp(pTargetStr, pSubStr, subStrLen)) 
+		return (char*)pTargetStr;
+	}
+	
+	--pTargetStr;
+	while ( *(++pTargetStr + subStrLen) != TER_SYM)
+	{
+		if (!cstrncmp(pTargetStr, pSubStr, subStrLen) ) 
+		{
 			return (char*)pTargetStr;
+		}
 	}
 
 	return NULL;
