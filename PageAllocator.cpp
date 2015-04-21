@@ -2,8 +2,6 @@
 #include "PageAllocator.h"
 
 #include <stdlib.h>
-#include <math.h>
-#include <iostream>
 
 #define NULL 0
 #define PAGE_SIZE 4096
@@ -68,6 +66,13 @@ void deleteBlock(memBlock* block, int list)
 void* mReserv(size_t size)
 {
 	memBlock* tempList = freeList;
+
+	if (!heapAdrs)
+	{
+		errorBuf = "Memory pool wasn't preallocated!";
+		return NULL;
+	}
+
 	while (tempList->size < (size) )
 	{
 		if (!tempList->next)
@@ -179,6 +184,28 @@ unsigned mFree(void *p)
 void freeAllMem()
 {
 	free(heapAdrs);
+	heapAdrs = NULL;
+	while (freeList)
+	{
+		if (!freeList->next)
+		{
+			free(freeList);  
+			break;
+		}
+		freeList = freeList->next;
+		free(freeList->prev);
+	}
+
+	while (reservList)
+	{
+		if (!reservList->next)
+		{
+			free(reservList);
+			break;
+		}
+		reservList = reservList->next;
+		free(reservList->prev);
+	}
 }
 
 void map()
