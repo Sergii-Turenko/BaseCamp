@@ -38,8 +38,12 @@ void deleteBlock(memBlock* block, int list)
 		{
 			switch (list)
 			{
-			case 0: reservList = NULL; break;
-			case 1:freeList = NULL; break;
+			case 0: 
+				reservList = NULL; 
+				break;
+			case 1:
+				freeList = NULL; 
+				break;
 			}
 		}
 		else
@@ -56,8 +60,12 @@ void deleteBlock(memBlock* block, int list)
 			{
 				switch (list)
 				{
-				case 0: reservList = block->next; break;
-				case 1: freeList = block->next; break;
+				case 0: 
+					reservList = block->next; 
+					break;
+				case 1: 
+					freeList = block->next; 
+					break;
 				}
 			}
 		}
